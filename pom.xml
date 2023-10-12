@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>sc.fiji</groupId>
-    <artifactId>ij_linking</artifactId>
+    <artifactId>fiji-links</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>Fiji custom scheme links Runner for Fiji</name>
@@ -87,11 +87,7 @@
 
     <properties>
         <scijava.jvm.version>11</scijava.jvm.version>
-        <!--        <scijava.jvm.test.version>11</scijava.jvm.test.version>-->
-        <!--        <scijava.jvm.build.version>11</scijava.jvm.build.version>-->
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <package-name>sc.fiji.ij_linking</package-name>
+        <package-name>sc.fiji.links</package-name>
 
         <license.licenseName>gpl_v3</license.licenseName>
         <license.copyrightOwners>Fiji developers.</license.copyrightOwners>
