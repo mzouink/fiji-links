@@ -21,17 +21,30 @@
  */
 package sc.fiji.links.example;
 
+import bdv.util.Bdv;
+import bdv.util.BdvFunctions;
+import bdv.util.BdvOptions;
+import net.imglib2.RandomAccessibleInterval;
+import net.imglib2.type.numeric.integer.UnsignedByteType;
+import org.janelia.saalfeldlab.n5.N5Reader;
+import org.janelia.saalfeldlab.n5.imglib2.N5Utils;
+import org.janelia.saalfeldlab.n5.universe.N5Factory;
+import org.scijava.links.AbstractLinkHandler;
+import org.scijava.links.LinkHandler;
+import org.scijava.links.Links;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
-import sc.fiji.links.AbstractFijiLinkHandler;
-import sc.fiji.links.FijiLinkHandler;
-import sc.fiji.links.Links;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
+import java.util.Map;
 
-@Plugin(type = FijiLinkHandler.class)
-public class OpenBDVLink extends AbstractFijiLinkHandler {
+@Plugin(type = LinkHandler.class)
+public class OpenBDVLink extends AbstractLinkHandler {
+    Bdv bdv;
 
     @Parameter
     private UIService uiService;
@@ -40,8 +53,49 @@ public class OpenBDVLink extends AbstractFijiLinkHandler {
     public void handle(final URI uri) {
         if (!supports(uri)) throw new UnsupportedOperationException("" + uri);
         // START HERE: implement actual behavior.
-        uiService.showDialog("OpenBDV: path=" + Links.subPath(uri) + ", query=" + Links.query(uri));
-        throw new RuntimeException("OpenBDV: path=" + Links.subPath(uri) + ", query=" + Links.query(uri));
+        System.out.println("URI: " + uri);
+//        uiService.showDialog("OpenBDV: path=" + Links.subPath(uri) + ", query=" + Links.query(uri)+ ", task=" + Links.query(uri).get("task"));
+        Map<String, String> queries = Links.query(uri);
+        String task = queries.get("task");
+
+        switch (task) {
+            case "OPEN":
+                bdv = open(queries.get("path"), queries.get("dataset"), false);
+                break;
+            case "ADD":
+                bdv = open(queries.get("path"), queries.get("dataset"), true);
+                break;
+            case "ROTATE":
+                rotate(bdv, 10);
+                break;
+        }
+
+//        throw new RuntimeException("OpenBDV: path=" + Links.subPath(uri) + ", query=" + Links.query(uri));
+    }
+
+    private void rotate(Bdv bdv, int i) {
+    }
+
+
+    private Bdv open(String path, String dataset, boolean addToBdv) {
+
+
+        // Visualize with BigDataViewer
+        try {
+            N5Reader n5Reader = new N5Factory().openReader(path);
+            final UnsignedByteType type = new UnsignedByteType();
+            final RandomAccessibleInterval<UnsignedByteType> data;
+            data = N5Utils.open(n5Reader, dataset);
+            if (addToBdv && bdv != null) {
+                return BdvFunctions.show(data, "S3 Dataset", BdvOptions.options().addTo(bdv));
+            } else {
+                return BdvFunctions.show(data, "S3 Dataset", BdvOptions.options());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     @Override

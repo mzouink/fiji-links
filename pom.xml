@@ -113,6 +113,31 @@
             <groupId>net.imagej</groupId>
             <artifactId>imagej-common</artifactId>
         </dependency>
+
+        <!--        OpenBDV     -->
+        <dependency>
+            <groupId>org.janelia.saalfeldlab</groupId>
+            <artifactId>n5-universe</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>sc.fiji</groupId>
+            <artifactId>bigdataviewer-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>sc.fiji</groupId>
+            <artifactId>bigdataviewer-vistools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.janelia.saalfeldlab</groupId>
+            <artifactId>n5</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.janelia.saalfeldlab</groupId>
+            <artifactId>n5-aws-s3</artifactId>
+            <version>4.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>
