@@ -26,6 +26,8 @@ import org.scijava.log.Logger;
 import org.scijava.plugin.HandlerService;
 
 import java.awt.Desktop;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
@@ -65,10 +67,6 @@ public interface FijiLinkService extends HandlerService<URI, FijiLinkHandler>, I
     @Override
     default void initialize() {
         HandlerService.super.initialize();
-        // Register URI handler with the desktop system, if possible.
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.APP_OPEN_URI)) {
-            Desktop.getDesktop().setOpenURIHandler(event -> handle(event.getURI()));
-        }
     }
 
     // -- Typed methods --
