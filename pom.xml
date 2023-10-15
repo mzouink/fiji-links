@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.scijava</groupId>
         <artifactId>pom-scijava</artifactId>
-        <version>36.0.0</version>
+        <version>37.0.0</version>
         <relativePath/>
     </parent>
 
@@ -131,12 +131,12 @@
         <dependency>
             <groupId>org.janelia.saalfeldlab</groupId>
             <artifactId>n5</artifactId>
-            <version>3.0.2</version>
+<!--            <version>3.0.2</version>-->
         </dependency>
         <dependency>
             <groupId>org.janelia.saalfeldlab</groupId>
             <artifactId>n5-aws-s3</artifactId>
-            <version>4.0.1</version>
+<!--            <version>4.0.1</version>-->
         </dependency>
     </dependencies>
 
