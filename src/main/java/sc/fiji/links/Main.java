@@ -28,10 +28,11 @@ import java.net.URI;
 
 public class Main {
     public static void main(final String... args) throws Exception {
+        String link = "fiji:/OpenBDV?%7B%22sources%22:[%7B%22data%22:%7B%22link%22:%22s3://janelia-cosem-datasets/jrc_macrophage-2/jrc_macrophage-2.n5%22,%22dataset%22:%22em/fibsem-uint16/s4%22%7D,%22viewer_state%22:%7B%7D%7D,%7B%22data%22:%7B%22link%22:%22s3://janelia-cosem-datasets/jrc_macrophage-2/jrc_macrophage-2.n5%22,%22dataset%22:%22labels/ecs_seg/s4%22%7D,%22viewer_state%22:%7B%22color%22:-4849920%7D%7D,%7B%22data%22:%7B%22link%22:%22s3://janelia-cosem-datasets/jrc_macrophage-2/jrc_macrophage-2.n5%22,%22dataset%22:%22labels/endo_seg/s4%22%7D,%22viewer_state%22:%7B%22color%22:-130817%7D%7D]%7D";
         final Context ctx = new Context();
         final LinkService fijiLinkService = ctx.service(LinkService.class);
 
-        final URI showBDV = new URI("fiji:/showBDV/myDataset?myArg1=foo&myArg2=bar");
+        final URI showBDV = new URI(link);
         fijiLinkService.handle(showBDV);
 
         final URI unsupported = new URI("fiji:/noPluginDefined/whoCares");

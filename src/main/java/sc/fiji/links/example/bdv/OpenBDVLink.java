@@ -19,7 +19,7 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-package sc.fiji.links.example;
+package sc.fiji.links.example.bdv;
 
 import bdv.util.Bdv;
 import bdv.util.BdvFunctions;
@@ -37,13 +37,16 @@ import org.scijava.links.Links;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 import org.scijava.ui.UIService;
-import sc.fiji.links.query.BDVRequestQuery;
+import sc.fiji.links.example.bdv.query.BDVRequestQuery;
+import sc.fiji.links.example.bdv.query.Source;
+import sc.fiji.links.example.bdv.query.ViewerState;
 
 import java.net.URI;
 
 @Plugin(type = LinkHandler.class)
 public class OpenBDVLink extends AbstractLinkHandler {
 
+    public static final String PLUGIN_NAME = "OpenBDV";
     @Parameter
     private UIService uiService;
 
@@ -55,16 +58,28 @@ public class OpenBDVLink extends AbstractLinkHandler {
             BDVRequestQuery bdvQuery = BDVRequestQuery.fromQuery(query, BDVRequestQuery.class);
             // For now, I am using N5Factory URLs manager. It does support locals, S3, etc. but I am not if it is the best option.
             // TODO use N5Viewer instead to support multi resolution
-            Bdv bdv = openEmptyBDV();
-            bdv.getBdvHandle().getViewerPanel().state().setViewerTransform(bdvQuery.viewerTransformation);
-            for (BDVRequestQuery.Source source : bdvQuery.sources) {
+            System.out.println(bdvQuery);
+//            if(bdv == null) bdv = openEmptyBDV();
+            Bdv bdv = null;
+            for (Source source : bdvQuery.sources) {
+                System.out.println(source);
                 N5Reader n5Reader = new N5Factory().openReader(source.data.link);
                 final RandomAccessibleInterval<UnsignedByteType> data = N5Utils.open(n5Reader, source.data.dataset);
-                BdvStackSource<?> bdvSource = BdvFunctions.show(data, source.data.dataset, BdvOptions.options().addTo(bdv));
-                BDVRequestQuery.ViewerState state = source.viewerState;
+                BdvStackSource<?> bdvSource = null;
+                if(bdv == null){
+                    bdvSource = BdvFunctions.show(data, source.data.dataset, BdvOptions.options());
+                    bdv = bdvSource.getBdvHandle();
+                }else
+                    bdvSource = BdvFunctions.show(data, source.data.dataset, BdvOptions.options().addTo(bdv));
+                if (source.viewerState == null) continue;
+                ViewerState state = source.viewerState;
                 if (state.color != null) bdvSource.setColor(state.color);
                 if (state.range != null) bdvSource.setDisplayRange(state.range.get(0), state.range.get(1));
             }
+            if (bdvQuery.viewerTransformation != null)
+                bdv.getBdvHandle().getViewerPanel().state().setViewerTransform(bdvQuery.viewerTransformation);
+//            refresh a view
+            bdv.getBdvHandle().getViewerPanel().requestRepaint();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -73,12 +88,14 @@ public class OpenBDVLink extends AbstractLinkHandler {
     private Bdv openEmptyBDV() {
         final UnsignedByteType t = new UnsignedByteType();
         final BdvStackSource<?> bdv = BdvFunctions.show(ArrayImgs.unsignedBytes(1, 1, 1), "dummy", BdvOptions.options());
-        bdv.removeFromBdv();
+//        bdv.removeFromBdv();
         return bdv;
     }
 
     @Override
     public boolean supports(final URI uri) {
-        return super.supports(uri) && "OpenBDV".equals(Links.operation(uri));
+        return super.supports(uri) && PLUGIN_NAME.equals(Links.operation(uri));
     }
+
+
 }

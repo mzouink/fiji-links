@@ -1,4 +1,4 @@
-package sc.fiji.links.serialization;
+package sc.fiji.links.example.bdv.serialization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
