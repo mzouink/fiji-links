@@ -9,6 +9,7 @@ import sc.fiji.links.example.bdv.OpenBDVLink;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,8 @@ public class GenerateBDVLink {
 //        String[] sources = new String[]{"em/tem-uint8/s6", "labels/nucleus_seg/s4"};
 
         URI uri = generateBDVUri(link, sources);
-        System.out.println(uri);
+//        System.out.println(uri);
+        System.out.println(URLDecoder.decode(uri.toString(), java.nio.charset.StandardCharsets.UTF_8));
     }
 
     private static URI generateBDVUri(String link, String[] sources) throws JsonProcessingException, URISyntaxException {

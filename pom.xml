@@ -113,6 +113,10 @@
             <groupId>net.imagej</groupId>
             <artifactId>imagej-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.imagej</groupId>
+            <artifactId>imagej-ui-swing</artifactId>
+        </dependency>
 
         <!--        OpenBDV     -->
         <dependency>
