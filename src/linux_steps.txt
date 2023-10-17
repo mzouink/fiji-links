@@ -1,0 +1,20 @@
+1-
+Desktop File Creation: Create a .desktop file for your Java application. This will allow your application to appear in the application menu and can also define how your application handles custom URI schemes.
+
+[Desktop Entry]
+Name=Fiji App
+Exec=/path/to/java -jar /path/to/my_app.jar %U
+Type=Application
+MimeType=x-scheme-handler/fiji;
+
+
+2-
+Install the Desktop File: Copy the .desktop file to either /usr/share/applications (system-wide) or ~/.local/share/applications (for the current user).
+
+3-
+sudo update-desktop-database
+
+4-
+invoke
+
+open fiji://test?t=t1
