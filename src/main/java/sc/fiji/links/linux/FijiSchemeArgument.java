@@ -13,16 +13,7 @@ public class FijiSchemeArgument extends AbstractConsoleArgument {
 
     public FijiSchemeArgument() {
         System.out.println("init FijiSchemeArgument");
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-            Desktop.getDesktop().setOpenURIHandler((event) -> {
-                System.out.println("Open URI: " + event.getURI());
-                try {
-                    FijiSchemeService.process(event.getURI());
-                } catch (InstantiableException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
+
     }
 
     @Override
