@@ -11,7 +11,6 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @Plugin(type = LinkHandler.class)
 public class MacroScripting extends AbstractLinkHandler {

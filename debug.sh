@@ -1,5 +1,5 @@
 mvn package -Denforcer.skip
-
+ mvn clean package -DskipTests=true
 #Not needed anymore
 #using ld to link the jar files
 

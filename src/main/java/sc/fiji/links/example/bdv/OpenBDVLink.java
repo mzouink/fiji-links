@@ -41,6 +41,7 @@ import sc.fiji.links.example.bdv.query.BDVRequestQuery;
 import sc.fiji.links.example.bdv.query.Source;
 import sc.fiji.links.example.bdv.query.ViewerState;
 
+import javax.swing.*;
 import java.net.URI;
 
 @Plugin(type = LinkHandler.class)
@@ -81,7 +82,8 @@ public class OpenBDVLink extends AbstractLinkHandler {
 //            refresh a view
             bdv.getBdvHandle().getViewerPanel().requestRepaint();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, e);
+//            throw new RuntimeException(e);
         }
     }
 
